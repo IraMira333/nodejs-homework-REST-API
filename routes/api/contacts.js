@@ -14,7 +14,7 @@ contactsRouter.get("/", async (req, res, next) => {
   }
 });
 
-contactsRouter.get("/:contactId", async (req, res, next) => {
+contactsRouter.get("/:id", async (req, res, next) => {
   try {
     const { id } = req.params;
     const contactById = await contactsService.getContactById(id);
