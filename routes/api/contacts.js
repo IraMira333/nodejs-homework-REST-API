@@ -28,7 +28,12 @@ contactsRouter.get("/:id", async (req, res, next) => {
 });
 
 contactsRouter.post("/", async (req, res, next) => {
-  res.json({ message: "template message" });
+  try {
+    console.log(req.body);
+  } catch (error) {
+    next(error);
+  }
+  //res.json({ message: "template message" });
 });
 
 contactsRouter.delete("/:contactId", async (req, res, next) => {
