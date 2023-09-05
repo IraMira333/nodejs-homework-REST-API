@@ -1,6 +1,6 @@
 import contactsService from "../models/contacts.js";
 import { HttpError } from "../helpers/index.js";
-import ctrlWrapper from "../decorators/index.js";
+import { ctrlWrapper } from "../decorators/index.js";
 
 const getAll = async (req, res) => {
   const allContacts = await contactsService.listContacts();
