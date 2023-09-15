@@ -6,6 +6,7 @@ import { ctrlWrapper } from "../decorators/index.js";
 const singUp = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+
   if (user) {
     throw HttpError(409, "Email already exist");
   }
@@ -20,6 +21,7 @@ const singUp = async (req, res) => {
 const singIn = async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
+
   if (!user) {
     throw HttpError(401, "Email or password invalid");
   }
@@ -28,7 +30,9 @@ const singIn = async (req, res) => {
     throw HttpError(401, "Email or password invalid");
   }
   const token = "Make a token";
-  res.status(200).json({ token, user: { email, subscription } });
+  res
+    .status(200)
+    .json({ token, user: { email, subscription: user.subscription } });
 };
 
 export default {
