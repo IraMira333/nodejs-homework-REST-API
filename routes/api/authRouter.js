@@ -7,7 +7,7 @@ const authRouter = express.Router();
 const userSingUpValidate = validateBody(userSchemas.userSingUpSchema);
 const userSingInValidate = validateBody(userSchemas.userSingInSchema);
 
-authRouter.post("/users/register", userSingUpValidate, authControllers.singUp);
-authRouter.post("/users/login", userSingInValidate, authControllers.singIn);
+authRouter.post("/register", userSingUpValidate, authControllers.singUp);
+authRouter.post("/login", userSingInValidate, authControllers.singIn);
 
 export default authRouter;
