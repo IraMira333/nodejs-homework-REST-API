@@ -29,7 +29,7 @@ contactsRouter.patch(
   "/:id/favorite",
   isValidId,
   contactValidation.contactFavoritValidate,
-  contactsControllers.updateStatusContact
+  contactsControllers.updateById
 );
 
 export default contactsRouter;
