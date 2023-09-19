@@ -66,7 +66,6 @@ export default {
   getAll: ctrlWrapper(getAll),
   add: ctrlWrapper(add),
   getById: ctrlWrapper(getById),
-
   removeById: ctrlWrapper(removeById),
   updateById: ctrlWrapper(updateById),
 };
