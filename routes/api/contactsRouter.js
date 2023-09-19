@@ -1,9 +1,11 @@
 import express from "express";
 import contactsControllers from "../../controllers/contactsControllers.js";
-import contactValidation from "../../middleware/validation/contactValidation.js";
-import isValidId from "../../middleware/isValidId.js";
+import contactValidation from "../../middleware/contactValidation.js";
+import { isValidId, authenticate } from "../../middleware/index.js";
 
 const contactsRouter = express.Router();
+
+contactsRouter.use(authenticate);
 
 contactsRouter.get("/", contactsControllers.getAll);
 
@@ -27,7 +29,7 @@ contactsRouter.patch(
   "/:id/favorite",
   isValidId,
   contactValidation.contactFavoritValidate,
-  contactsControllers.updateStatusContact
+  contactsControllers.updateById
 );
 
 export default contactsRouter;
