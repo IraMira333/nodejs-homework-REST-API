@@ -25,6 +25,7 @@ const userSchema = new Schema(
       enum: subscriptionList,
       default: "starter",
     },
+    avatarURL: String,
     token: String,
   },
   { versionKey: false, timestamps: true }
@@ -38,9 +39,7 @@ export const userSingUpSchema = Joi.object({
   username: Joi.string().required(),
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().min(8).required(),
-  subscription: Joi.string()
-    .valid(...subscriptionList)
-    .required(),
+  subscription: Joi.string().valid(...subscriptionList),
 });
 
 export const userSingInSchema = Joi.object({
@@ -51,6 +50,11 @@ export const userSingInSchema = Joi.object({
 export const userUpdateSubscribptionSchema = Joi.object({
   subscription: Joi.string()
     .valid(...subscriptionList)
+    .required(),
+});
+export const userUpdateAvatarSchema = Joi.object({
+  avatarURL:
+    Joi.string()
     .required(),
 });
 
