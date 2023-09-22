@@ -3,6 +3,7 @@ import path from "path";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import gravatar from "gravatar";
+import Jimp from "jimp";
 import User from "../models/User.js";
 import { HttpError } from "../helpers/index.js";
 import { ctrlWrapper } from "../decorators/index.js";
@@ -83,12 +84,20 @@ const updateSubscription = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
   const { _id } = req.user;
-  console.log(req.user.email);
   const { path: oldPath, filename } = req.file;
-  const newAvatarPath = path.join(avatarPath, filename);
-  console.log(avatarPath);
-  await fs.rename(oldPath, newAvatarPath);
-  const avatarURL = path.join("avatars", filename);
+  const newAvatarName = `${req.user.email}_${filename}`;
+  const newAvatarPath = path.join(avatarPath, newAvatarName);
+
+  Jimp.read(oldPath)
+    .then((image) => {
+      return image.resize(250, 250).write(newAvatarPath); // resize
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+
+  await fs.unlink(oldPath);
+  const avatarURL = path.join("avatars", newAvatarName);
   await User.findByIdAndUpdate(_id, { avatarURL });
   res.status(200).json({ avatarURL });
 };
