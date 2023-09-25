@@ -31,5 +31,6 @@ describe("test login route", () => {
     expect(body.token).toBe(loginData.token);
 
     const user = await User.findOne({ email: loginData.user.email });
+    expect(user.email).toBe(loginData.user.email);
   });
 });
