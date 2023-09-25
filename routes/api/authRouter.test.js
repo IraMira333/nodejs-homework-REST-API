@@ -23,7 +23,7 @@ describe("test login route", () => {
       user: { email: "margosha@gmail.com", subscription: "starter" },
     };
     const { statusCode, body } = await request(app)
-      .post("api/users/login")
+      .post("/api/users/login")
       .send(loginData);
     expect(statusCode).toBe(200);
     expect(body.user.email).toBe(loginData.user.email);
