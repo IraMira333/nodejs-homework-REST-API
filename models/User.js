@@ -52,9 +52,6 @@ export const userUpdateSubscribptionSchema = Joi.object({
     .valid(...subscriptionList)
     .required(),
 });
-export const userUpdateAvatarSchema = Joi.object({
-  avatarURL: Joi.string().required(),
-});
 
 const User = model("user", userSchema);
 
