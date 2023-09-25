@@ -10,9 +10,6 @@ const userSingInValidate = validateBody(userSchemas.userSingInSchema);
 const userUpdatSubscriptionValidate = validateBody(
   userSchemas.userUpdateSubscribptionSchema
 );
-const userUpdatAvatarValidate = validateBody(
-  userSchemas.userUpdateAvatarSchema
-);
 
 authRouter.post("/register", userSingUpValidate, authControllers.singUp);
 authRouter.post("/login", userSingInValidate, authControllers.singIn);
@@ -28,7 +25,6 @@ authRouter.patch(
   "/avatars",
   upload.single("avatarURL"),
   authenticate,
-  //userUpdatAvatarValidate,
   authControllers.updateAvatar
 );
 
