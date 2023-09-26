@@ -4,7 +4,7 @@ import app from "../../app.js";
 import "dotenv/config.js";
 import User from "../../models/User.js";
 
-const { DB_HOST, DB_HOST_TEST, PORT } = process.env;
+const { DB_HOST, PORT } = process.env;
 
 describe("test login route", () => {
   let server = null;
