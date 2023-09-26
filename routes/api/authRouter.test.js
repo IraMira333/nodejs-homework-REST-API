@@ -1,14 +1,15 @@
 import mongoose from "mongoose";
 import request from "supertest";
 import app from "../../app.js";
+import "dotenv/config.js";
 import User from "../../models/User.js";
 
-const { DB_HOST_TEST, PORT } = process.env;
+const { DB_HOST, DB_HOST_TEST, PORT } = process.env;
 
-describe("test singup route", () => {
+describe("test login route", () => {
   let server = null;
   beforeAll(async () => {
-    await mongoose.connect(DB_HOST_TEST);
+    await mongoose.connect(DB_HOST);
     server = app.listen(PORT);
   });
 
@@ -17,26 +18,26 @@ describe("test singup route", () => {
     server.close();
   });
 
-  afterEach(async () => {
-    await User.deleteMany({});
-  });
+  // afterEach(async () => {
+  //   await User.deleteMany({});
+  // });
 
-  test("test singup with correct data", async () => {
-    const singUpData = {
-      username: "Margo7",
-      email: "Margosha7@gmail.com",
-      password: "Margosha12345",
+  test("test login with correct data", async () => {
+    const loginData = {
+      //username: "Margo7",
+      email: "Margosha4@gmail.com",
+      password: "Margosha123",
     };
     const { statusCode, body } = await request(app)
-      .post("/api/users/register")
-      .send(singUpData);
+      .post("/api/users/login")
+      .send(loginData);
     console.log(statusCode);
     console.log(body);
-    expect(statusCode).toBe(201);
-    expect(body.user.username).toBe(singUpData.username);
-    expect(body.user.email).toBe(singUpData.email);
 
-    const user = await User.findOne({ email: singUpData.email });
-    expect(user.email).toBe(singUpData.email);
+    const user = await User.findOne({ email: loginData.email });
+    expect(user.email).toBe(loginData.email);
+    expect(statusCode).toBe(200);
+    expect(body.user.subscription).toBe(user.subscription);
+    expect(body.user.email).toBe(loginData.email);
   });
 });
