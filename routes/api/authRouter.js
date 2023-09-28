@@ -2,7 +2,7 @@ import express from "express";
 import authControllers from "../../controllers/authControllers.js";
 import * as userSchemas from "../../models/User.js";
 import { validateBody } from "../../decorators/index.js";
-import { authenticate } from "../../middleware/index.js";
+import { authenticate, upload } from "../../middleware/index.js";
 
 const authRouter = express.Router();
 const userSingUpValidate = validateBody(userSchemas.userSingUpSchema);
@@ -20,6 +20,12 @@ authRouter.patch(
   authenticate,
   userUpdatSubscriptionValidate,
   authControllers.updateSubscription
+);
+authRouter.patch(
+  "/avatars",
+  upload.single("avatarURL"),
+  authenticate,
+  authControllers.updateAvatar
 );
 
 export default authRouter;
