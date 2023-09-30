@@ -5,7 +5,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import gravatar from "gravatar";
 import Jimp from "jimp";
-import nanoid from "nanoid";
+import { nanoid } from "nanoid";
 import User from "../models/User.js";
 import { HttpError, sendEmail } from "../helpers/index.js";
 import { ctrlWrapper } from "../decorators/index.js";
@@ -58,10 +58,28 @@ const verify = async (req, res) => {
 
   await User.findByIdAndUpdate(user._id, {
     verify: true,
-    verificationToken: "",
+    verificationToken: null,
   });
 
   res.status(200).json({ message: "Verification successful" });
+};
+
+const resendVerifyEmail = async (req, res) => {
+  const { email } = req.body;
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw HttpError(404, "Email is not found");
+  }
+  if (user.verify) {
+    throw HttpError(400, "Verification has already been passed");
+  }
+  const verifyEmail = {
+    to: email,
+    subject: "Verify email",
+    html: `<a tagret="_blank" href="${BASE_URL}/api/users/verify/${user.verificationToken}">Click to verificate</a>`,
+  };
+  await sendEmail(verifyEmail);
+  res.status(200).json({ message: "Verification email sent" });
 };
 
 const singIn = async (req, res) => {
@@ -137,6 +155,7 @@ const updateAvatar = async (req, res) => {
 export default {
   singUp: ctrlWrapper(singUp),
   verify: ctrlWrapper(verify),
+  resendVerifyEmail: ctrlWrapper(resendVerifyEmail),
   singIn: ctrlWrapper(singIn),
   getCurrent: ctrlWrapper(getCurrent),
   logout: ctrlWrapper(logout),
