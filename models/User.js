@@ -55,6 +55,10 @@ export const userSingInSchema = Joi.object({
   password: Joi.string().min(8).required(),
 });
 
+export const userVerifySchema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required(),
+});
+
 export const userUpdateSubscribptionSchema = Joi.object({
   subscription: Joi.string()
     .valid(...subscriptionList)
