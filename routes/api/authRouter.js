@@ -12,6 +12,7 @@ const userUpdatSubscriptionValidate = validateBody(
 );
 
 authRouter.post("/register", userSingUpValidate, authControllers.singUp);
+authRouter.get("/verify/:verificationToken", authControllers.verify);
 authRouter.post("/login", userSingInValidate, authControllers.singIn);
 authRouter.get("/current", authenticate, authControllers.getCurrent);
 authRouter.post("/logout", authenticate, authControllers.logout);
