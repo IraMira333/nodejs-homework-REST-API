@@ -10,8 +10,15 @@ const userSingInValidate = validateBody(userSchemas.userSingInSchema);
 const userUpdatSubscriptionValidate = validateBody(
   userSchemas.userUpdateSubscribptionSchema
 );
+const userEmailValidate = validateBody(userSchemas.userVerifySchema);
 
 authRouter.post("/register", userSingUpValidate, authControllers.singUp);
+authRouter.get("/verify/:verificationToken", authControllers.verify);
+authRouter.post(
+  "/verify",
+  userEmailValidate,
+  authControllers.resendVerifyEmail
+);
 authRouter.post("/login", userSingInValidate, authControllers.singIn);
 authRouter.get("/current", authenticate, authControllers.getCurrent);
 authRouter.post("/logout", authenticate, authControllers.logout);

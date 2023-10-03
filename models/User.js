@@ -27,6 +27,14 @@ const userSchema = new Schema(
     },
     avatarURL: String,
     token: String,
+    verify: {
+      type: Boolean,
+      default: false,
+    },
+    verificationToken: {
+      type: String,
+      required: [true, "Verify token is required"],
+    },
   },
   { versionKey: false, timestamps: true }
 );
@@ -45,6 +53,10 @@ export const userSingUpSchema = Joi.object({
 export const userSingInSchema = Joi.object({
   email: Joi.string().pattern(emailRegex).required(),
   password: Joi.string().min(8).required(),
+});
+
+export const userVerifySchema = Joi.object({
+  email: Joi.string().pattern(emailRegex).required(),
 });
 
 export const userUpdateSubscribptionSchema = Joi.object({
